@@ -52,7 +52,7 @@ Add-Type -AssemblyName System.Windows.Forms
                                     ToolTip="Copy subdirectories, but not empty ones"/>
                                 <CheckBox Name="chkEmptySubdirectories" Content="Copy Empty Subdirectories (/E)"
                                     ToolTip="Copy subdirectories, including empty ones"/>
-                                <CheckBox Name="chkMirror" Content="Copy Empty Subdirectories (/MIR)"
+                                <CheckBox Name="chkMirror" Content="Mirror source structure including deleting from destination if its not in source (/MIR)"
                                     ToolTip="Equivalent to /E + /PURGE, removes items in destination that doesn't exist in source"/>
 
                             </StackPanel>
@@ -397,13 +397,18 @@ $btnRun.Add_Click({
             return
         }
     
-        try {
-            Invoke-Expression $command
-            [System.Windows.MessageBox]::Show("Copy operation completed successfully!", "Success", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
-        }
-        catch {
-            [System.Windows.MessageBox]::Show("Error executing Robocopy: $_", "Error", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Error)
-        }
+        # Start robocopy as a separate process and redirect output
+        $process = Start-Process -FilePath "robocopy" -ArgumentList $command.Substring("robocopy".Length) -NoNewWindow
+
+        # Check for errors
+        # if ($process.ExitCode -ne 0 -and $process.ExitCode -ne 1) {
+        #     $errorMessage = Get-Content errors.log
+        #     [System.Windows.MessageBox]::Show("Error executing Robocopy: $($errorMessage)", "Error", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Error)
+        # } else {
+        #     $output = Get-Content output.log
+        #     $output | Out-Host
+        #     [System.Windows.MessageBox]::Show("Copy operation completed!", "Success", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
+        # }
     })
 
 # Copy Command button handler
@@ -412,6 +417,7 @@ $btnCopyCommand.Add_Click({
         [System.Windows.Clipboard]::SetText($command)
         [System.Windows.MessageBox]::Show("Command copied to clipboard!", "Success", [System.Windows.MessageBoxButton]::OK, [System.Windows.MessageBoxImage]::Information)
     })
+
 
 # Save Config handler
 $btnSaveConfig.Add_Click({
