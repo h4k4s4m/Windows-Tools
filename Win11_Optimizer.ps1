@@ -43,14 +43,29 @@ Function Disable-Services {
 Function Remove-Bloatware {
     $bloatwareApps = @(
         "Microsoft.XboxApp",
-        "Microsoft.XboxGameOverlay",
+        "Microsoft.XboxGamingOverlay",
         "Microsoft.WindowsCommunicationsApps",
         "Microsoft.MicrosoftOfficeHub",
         "Microsoft.OneNote",
         "Microsoft.SkypeApp",
         "Microsoft.GetHelp",
         "Microsoft.ZuneMusic",
-        "Microsoft.ZuneVideo"
+        "Microsoft.ZuneVideo",
+        "Microsoft.GamingApp",
+        "Microsoft.YourPhone",
+        "Microsoft.Copilot",
+        "Microsoft.Xbox.TCUI",
+        "Microsoft.GamingServices",
+        "Microsoft.WindowsFeedbackHub",
+        "Clipchamp.Clipchamp",
+        "Microsoft.Todos",
+        "MSTeams",
+        "Microsoft.BingNews",
+        "Microsoft.BingWeather",
+        "Microsoft.BingSearch"
+
+
+
     )
 
     foreach ($app in $bloatwareApps) {
@@ -65,15 +80,15 @@ Function Remove-Bloatware {
 
 # Function to optimize visual effects
 Function Optimize-VisualEffects {
-    $RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
-    Set-ItemProperty -Path $RegPath -Name VisualFXSetting -Value 2
-    Write-Host "Visual effects optimized." -ForegroundColor Green
+    # $RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects"
+    # Set-ItemProperty -Path $RegPath -Name VisualFXSetting -Value 2
+    # Write-Host "Visual effects optimized." -ForegroundColor Green
 }
 
 # Function to manage background apps
 Function Disable-BackgroundApps {
-    Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Value 1
-    Write-Host "Background apps disabled." -ForegroundColor Green
+    # Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" -Name "GlobalUserDisabled" -Value 1
+    # Write-Host "Background apps disabled." -ForegroundColor Green
 }
 
 # Function to perform optimizations
